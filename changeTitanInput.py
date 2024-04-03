@@ -59,7 +59,7 @@ for x in range(1,9):
         json.dump(newConfig, file_a, indent=2) 
     api_url = f'{base_url}{x}{suffix_url}'
     if templateDec['debug'] == True:
-        response = put_config_decoder(api_url, newConfig)
         print(f"Completed print file -> " + str(newConfig['name']))
     else:
+        response = put_config_decoder(api_url, newConfig)
         print(f"Completed update on -> " + str(newConfig['name']))
