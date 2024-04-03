@@ -1,7 +1,7 @@
 {
   "debug": true,
-  "address": "10.130.104.12",
-  "name": "MDEC9-1",
+  "address": "0.0.0.0",
+  "name": "Name dec",
   "source": {
     "input": [
       {
