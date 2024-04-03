@@ -1,0 +1,83 @@
+{
+  "debug": true,
+  "address": "10.130.104.12",
+  "name": "MDEC9-1",
+  "source": {
+    "input": [
+      {
+        "isEnabled": true,
+        "type": "ip",
+        "ip": {
+          "address": "237.93.1.1",
+          "port": 5500,
+          "interface": "TS-ALFA",
+          "isFecEnabled": false,
+          "bufferDuration": 50,
+          "ssm": {
+            "isEnabled": true,
+            "mode": "include",
+            "address": [
+              "10.123.197.202",
+              "10.123.228.202",
+              "",
+              "",
+              "",
+              "",
+              "",
+              ""
+            ]
+          },
+          "smpte2022_7": {
+            "isEnabled": true,
+            "address": "237.95.1.1",
+            "port": 5500,
+            "interface": "TS-BETA",
+            "skew": "moderate",
+            "customSkew": 0
+          },
+          "isVbr": false,
+          "isLowLatencyFec": false
+        }
+      }
+    ],
+    "maxBitRate": 210000000
+  },
+  "composition": {
+    "mode": "automatic",
+    "service": {
+      "primaryServiceId": 0,
+      "secondaryServiceId": -1,
+      "fallbackMode": "auto"
+    },
+    "video": {
+      "maxBitrate": {
+        "isAutoDetect": true,
+        "fallback": 50000000
+      },
+      "maxVideoFormat": "hd_1080p",
+      "pid": 1
+    },
+    "descrambling": {
+      "mode": "none",
+      "cam": {
+        "pairing": {
+          "isEnabled": false,
+          "customerId": 1
+        },
+        "name": ""
+      },
+      "biss": {
+        "mode": "1",
+        "key": "",
+        "injectedIdName": "",
+        "ca": {
+          "entitlementKeyName": ""
+        }
+      },
+      "serviceSelection": "decoded",
+      "service": []
+    },
+    "tsOrdering": "pmtOrder",
+    "ptsPcrOffset": 0.0
+  }
+}
