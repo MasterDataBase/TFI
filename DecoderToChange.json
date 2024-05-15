@@ -1,14 +1,14 @@
 {
-  "debug": true,
-  "address": "0.0.0.0",
-  "name": "Name dec",
+  "debug": false,
+  "address": "10.130.104.12",
+  "name": "Titan10",
   "source": {
     "input": [
       {
         "isEnabled": true,
         "type": "ip",
         "ip": {
-          "address": "0.0.0.0",
+          "address": "237.93.1.1",
           "port": 5500,
           "interface": "TS-ALFA",
           "isFecEnabled": false,
@@ -17,8 +17,8 @@
             "isEnabled": true,
             "mode": "include",
             "address": [
-              "0.0.0.0",
-              "0.0.0.0",
+              "10.123.197.202",
+              "10.123.228.202",
               "",
               "",
               "",
@@ -29,7 +29,7 @@
           },
           "smpte2022_7": {
             "isEnabled": true,
-            "address": "0.0.0.0",
+            "address": "237.95.1.1",
             "port": 5500,
             "interface": "TS-BETA",
             "skew": "moderate",
@@ -43,7 +43,7 @@
     "maxBitRate": 210000000
   },
   "composition": {
-    "mode": "automatic",
+    "mode": "auto_mapping",
     "service": {
       "primaryServiceId": 0,
       "secondaryServiceId": -1,

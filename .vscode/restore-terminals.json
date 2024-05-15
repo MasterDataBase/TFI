@@ -1,0 +1,15 @@
+{
+    "runOnStartup": true,
+    "terminals": [
+      {
+        "splitTerminals": [
+          {
+            "name": "vevn",
+            "commands": [
+                ".\\env\\Scripts\\activate"
+            ]
+          }
+        ]
+      }
+    ]
+  }

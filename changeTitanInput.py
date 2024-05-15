@@ -36,6 +36,20 @@ def UpdateDecoderInput(baseDec, inputDec):
     # Add more lines for additional nodes to merge
     return baseDec
 
+def get_decode_list(address_machine):
+    # address_machine = '10.130.104.12' 
+    base_url = f'http://{address_machine}/decoder/api/channels'
+    suffix_url = "/configuration"
+    # api_url = f"{base_url}{1}{suffix_url}"    
+    api_url = f"{base_url}"    
+    print(api_url)
+    result = get_json_from_api(api_url)
+    dec = list()
+    for x in result:
+        dec.append(x['configuration']['name'])
+    return dec
+
+# Main process
 # Load JSON data from the files
 with open('DecoderToChange.json', 'r') as file_a:
     templateDec = json.load(file_a)
@@ -44,9 +58,14 @@ with open('DecoderToChange.json', 'r') as file_a:
 address_machine = templateDec['address']
 base_url = f'http://{address_machine}/decoder/api/channels/'
 suffix_url = "/configuration"
+decoders = get_decode_list(address_machine)
 # Dynamic value
-for x in range(1,9):
-    api_url = f"{base_url}{x}{suffix_url}"
+for x in decoders:
+    xIndex = str(decoders.index(x)+1)
+    api_url = f"{base_url}{xIndex}{suffix_url}"
+    # Debug
+    print(str(x) + ": " + str(decoders.index(x)+1))
+    
     json_data = get_json_from_api(api_url)
     # Debug
     print("start process for -> " + str(json_data['name']))
@@ -57,7 +76,7 @@ for x in range(1,9):
     # Write the modified data back to json_a.json
     with open(str(json_data['name']) + '.json', 'w') as file_a:
         json.dump(newConfig, file_a, indent=2) 
-    api_url = f'{base_url}{x}{suffix_url}'
+    # api_url = f'{base_url}{x}{suffix_url}'
     if templateDec['debug'] == True:
         print(f"Completed print file -> " + str(newConfig['name']))
     else:
