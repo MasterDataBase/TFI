@@ -52,20 +52,16 @@ def get_decode_list(address_machine):
 
 def check_decod_to_set(decoders, listDec): 
     targets = list()
-    # for f in decoders:
-    #     print(str(f.name))
-        
-    # for f in listDec:
-    #     print(str(f))
     
-    for f in listDec:
-        for j in decoders:
-            # print(str(j.id) + "|" + str(f))
-            if(str(f) == str(j.id)):
-                targets.append(j)
+    if(listDec[0] != -1):
+        for f in listDec:
+            for j in decoders:
+                if(str(f) == str(j.id)):
+                    targets.append(j)
+    else: 
+        for f in decoders: 
+            targets.append(f)
     
-    # for f in targets:
-    #     print(f.name)
     return targets
 
 
@@ -85,7 +81,13 @@ base_url = f'http://{address_machine}/decoder/api/channels/'
 suffix_url = "/configuration"
 decoders = get_decode_list(address_machine)
 
-listDecoders = templateDec['target']
+listDecoders = list()
+
+try:
+    listDecoders = templateDec['target']
+except:
+    print("targets not provided, entire titan decoders will be update")
+    listDecoders.append(-1)
 
 decoders = check_decod_to_set(decoders=decoders, listDec=listDecoders)
 
