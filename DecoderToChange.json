@@ -2,6 +2,7 @@
   "debug": false,
   "address": "10.130.104.12",
   "name": "Titan10",
+  "target": [1,2,3,4,5],
   "source": {
     "input": [
       {

@@ -46,8 +46,33 @@ def get_decode_list(address_machine):
     result = get_json_from_api(api_url)
     dec = list()
     for x in result:
-        dec.append(x['configuration']['name'])
+        # dec.append(x['configuration']['name'])
+        dec.append(Decoder(name=x['configuration']['name'], id=x['id']))
     return dec
+
+def check_decod_to_set(decoders, listDec): 
+    targets = list()
+    # for f in decoders:
+    #     print(str(f.name))
+        
+    # for f in listDec:
+    #     print(str(f))
+    
+    for f in listDec:
+        for j in decoders:
+            # print(str(j.id) + "|" + str(f))
+            if(str(f) == str(j.id)):
+                targets.append(j)
+    
+    # for f in targets:
+    #     print(f.name)
+    return targets
+
+
+class Decoder: 
+    def __init__(self, name, id):
+        self.name = name
+        self.id = id
 
 # Main process
 # Load JSON data from the files
@@ -59,26 +84,36 @@ address_machine = templateDec['address']
 base_url = f'http://{address_machine}/decoder/api/channels/'
 suffix_url = "/configuration"
 decoders = get_decode_list(address_machine)
-# Dynamic value
-for x in decoders:
-    xIndex = str(decoders.index(x)+1)
-    api_url = f"{base_url}{xIndex}{suffix_url}"
-    # Debug
-    print(str(x) + ": " + str(decoders.index(x)+1))
-    
-    json_data = get_json_from_api(api_url)
-    # Debug
-    print("start process for -> " + str(json_data['name']))
-    
-    # Update dec config
-    newConfig = UpdateDecoderInput(json_data, templateDec)
-    
-    # Write the modified data back to json_a.json
-    with open(str(json_data['name']) + '.json', 'w') as file_a:
-        json.dump(newConfig, file_a, indent=2) 
-    # api_url = f'{base_url}{x}{suffix_url}'
-    if templateDec['debug'] == True:
-        print(f"Completed print file -> " + str(newConfig['name']))
-    else:
-        response = put_config_decoder(api_url, newConfig)
-        print(f"Completed update on -> " + str(newConfig['name']))
+
+listDecoders = templateDec['target']
+
+decoders = check_decod_to_set(decoders=decoders, listDec=listDecoders)
+
+if not decoders: 
+    with open('result' + '.json', 'w') as file_a:
+        json.dump("not found any decoder based on the list provided", file_a, indent=2)     
+else:
+    # Dynamic value
+    for x in decoders:
+        # xIndex = str(decoders.index(x)+1)
+        
+        api_url = f"{base_url}{x.id}{suffix_url}"
+        # Debug
+        # print(str(x.name) + ": " + str(decoders.index(x.id)+1))
+        
+        json_data = get_json_from_api(api_url)
+        # Debug
+        print("start process for -> " + str(json_data['name']))
+        
+        # Update dec config
+        newConfig = UpdateDecoderInput(json_data, templateDec)
+        
+        # Write the modified data back to json_a.json
+        with open(str(json_data['name']) + '.json', 'w') as file_a:
+            json.dump(newConfig, file_a, indent=2) 
+        # api_url = f'{base_url}{x}{suffix_url}'
+        if templateDec['debug'] == True:
+            print(f"Completed print file -> " + str(newConfig['name']))
+        else:
+            response = put_config_decoder(api_url, newConfig)
+            print(f"Completed update on -> " + str(newConfig['name']))
